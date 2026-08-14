@@ -52,11 +52,6 @@ class Persona():
         else:
             print("es menor de edad")
     
-    def verificar_identificacion(self):
-        if len(self.__identificacion) == 8:
-            print("La identificacion es valida")
-        else:
-            print("No es valida")
 
 
     def mostrar_datos(self):
@@ -67,7 +62,13 @@ class Persona():
         print("nacionalidad: ",self.get_nacionalidad())
         
     
-
+#Verificar que la identificación ingresada sea válida y no se encuentre vacía.
+    def verificar_identificacion(self):
+        if len(self.__identificacion) == 8:
+            print("La identificacion es valida")
+        else:
+            print("No es valida")
+            
 
 persona=Persona("juan",20,"Dni ","32400127","Argentina")
 persona.verificar_identificacion()

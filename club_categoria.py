@@ -40,6 +40,7 @@ class ClubDeportivo(Club):
         print("actividades:",self.actividades)
 
 
+
     #Incorporar la funcionalidad para registrar nuevos socios dentro de la categoría correspondiente.
 
     def registrar_socios(self,socio, activo = True):
@@ -92,7 +93,17 @@ class ClubDeportivo(Club):
 
 
     #Calcular qué porcentaje de los socios registrados se encuentra actualmente en estado activo.
-    def calcular_porcentaje
+
+    def calcular_porcentaje(self):
+        if not self.__socios:
+            return 0.0
+
+        activos = 0
+        for socio in self.__socios:
+            if socio.activo:
+                activos += 1
+
+        return (activos * 100) / len(self.__socios)
 
 club_boca = ClubDeportivo("Boca juniors","Gigante del fútbol mundial, apodado Xeneize. Famoso por su estadio La Bombonera y su enorme identidad popular.","Barrio de La Boca, Buenos Aires, Argentina ","Juan Román Riquelme","3 de abril de 1905",264,000)
 club_boca.mostrar()
