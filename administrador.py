@@ -9,41 +9,57 @@
 #Métodos:
 
 #● getters y setters
-
 from club_categoria import ClubDeportivo
 
 class Administrador(ClubDeportivo):
-    def __init__(self,nombre,usuario,contrasena):
-        self.nombre=nombre
-        
-        self.listado_socios=[]
-        
-        
-        #atributos privados
-        self.__usuario=usuario
-        self.__contrasena=contrasena
-        
-    def get__usuario(self):
+    def __init__(self, nombre, descripcion, ubicacion, presidente, fecha_fundacion, socios, actividades, usuario, contrasena):
+        super().__init__(nombre, descripcion, ubicacion, presidente, fecha_fundacion, socios, actividades)
+        self.__usuario = usuario
+        self.__contrasena = contrasena
+
+    def get_usuario(self):
         return self.__usuario
-    
-    def get__contrasena(self):
+
+    def get_contrasena(self):
         return self.__contrasena
-    
-    def set_usuario(self,usuario):
-        self.__usuario=usuario
-        
-    def set_contrasena(self,contrasena):
-        self.__contrasena=contrasena
-        
-    #Obtener un listado completo de los socios pertenecientes a un club
-    # .Registrar nuevos socios en un club.    
-    def agregar_lista(self,socio):
-        super().__socios.append(socio)
-        
+
+    def set_usuario(self, usuario):
+        self.__usuario = usuario
+
+    def set_contrasena(self, contrasena):
+        self.__contrasena = contrasena
+
+    def agregar_lista(self, socio):
+        self.registrar_socios(socio)
+
     def listado_completo(self):
-        for i in super().__socios:
-            print("nombre completo: ",i)
-        
+        for socio in self.get_socios():
+            print("Usuario del socio:", socio.get_usuario())
+
+    def reactivar_socio(self, socio):
+        if socio not in self.get_socios():
+            print("Ese socio no pertenece a este club.")
+            return False
+    
+        elif socio.estado != "suspendido":
+            print("El socio no está suspendido, no corresponde reactivarlo.")
+        return False
+
+
+    def suspender_socio(self, socio):
+        if socio not in self.get_socios():
+            print("Ese socio no pertenece a este club.")
+        return False
+    
+        if socio.estado == "suspendido":
+            print("El socio ya se encuentra suspendido.")
+        return False
+    
+        socio.estado = "suspendido"
+        print("El socio fue suspendido por incumplimiento o deudas pendientes.")
+        return True
+    
+            
 
 
 admin=Administrador("tiziano","tizi123","87654321")
