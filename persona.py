@@ -11,66 +11,78 @@
 
 #● mostrar_datos()
 #● getters y setters
+#c) Crear el archivo persona.py con la clase Persona:
+#Atributos:
+
+#● nombre_completo
+#● edad
+#● __tipo_identificacion (DNI, Pasaporte, Cédula de identidad)
+#● __identificacion
+#● __nacionalidad
+
+#Métodos:
+
+#● mostrar_datos()
+#● getters y setters
 
 class Persona():
-    def __init__(self,nombre_completo,edad,tipo_identificacion,identificacion,nacionalidad):
-        self.nombre=nombre_completo
-        self.edad=edad
-        
-        #atributos privado
-        self.__tipo_identificacion=tipo_identificacion
-        self.__identificacion=identificacion
-        self.__nacionalidad=nacionalidad
-        
-        
+    def __init__(self, nombre_completo, edad, tipo_identificacion, identificacion, nacionalidad):
+        self.nombre = nombre_completo   # atributo público: nombre completo de la persona
+        self.edad = edad                # atributo público: edad de la persona
 
-    #getters    
+        # atributos privados (doble guión bajo): solo se acceden con getters/setters
+        self.__tipo_identificacion = tipo_identificacion   # ej: "DNI", "Pasaporte"
+        self.__identificacion = identificacion             # el número/código en sí
+        self.__nacionalidad = nacionalidad
+
+    # ---------- GETTERS ----------
     def get_tipo_identificacion(self):
-        return self.__tipo_identificacion
-    
+        return self.__tipo_identificacion   # devuelve el tipo (DNI, Pasaporte, etc.)
+
     def get_identificacion(self):
-        return self.__identificacion
-    
+        return self.__identificacion        # devuelve el número de identificación
+
     def get_nacionalidad(self):
-        return self.__nacionalidad
-    
-    #setters
-    
-    def set_tipo_identificacion(self,tipo_identificacion):
-        self._tipo_identificacion=tipo_identificacion
+        return self.__nacionalidad          # devuelve la nacionalidad
+
+    # ---------- SETTERS ----------
+    def set_tipo_identificacion(self, tipo_identificacion):
         
-    def set_identificacion(self,identificacion):
-        self.__identificacion=identificacion
-        
-    def set_nacionalidad(self,nacionalidad):
-        self.__nacionalidad=nacionalidad
-        
-    #Determinar automáticamente si una persona es mayor o menor de edad.
+        self.__tipo_identificacion = tipo_identificacion
+
+    def set_identificacion(self, identificacion):
+        self.__identificacion = identificacion   # reemplaza el número de identificación
+
+    def set_nacionalidad(self, nacionalidad):
+        self.__nacionalidad = nacionalidad        # reemplaza la nacionalidad
+
+    # ---------- 1) DETERMINAR MAYOR/MENOR DE EDAD ----------
     def es_mayor_edad(self):
-        if  self.edad >= 18:
+        if self.edad >= 18:              # si tiene 18 años o más
             print("es mayor de edad")
-        else:
+        else:                             # si tiene menos de 18
             print("es menor de edad")
-    
 
-
+    # ---------- MOSTRAR TODOS LOS DATOS ----------
     def mostrar_datos(self):
-        print("nombre_completo: ",self.nombre)
-        print("edad: ",self.edad)
-        print("tipo_identificacion: ",self.get_identificacion())
-        print("identificacion: ",self.get_identificacion())
-        print("nacionalidad: ",self.get_nacionalidad())
-        
-    
-#Verificar que la identificación ingresada sea válida y no se encuentre vacía.
-    def verificar_identificacion(self):
-        if len(self.__identificacion) == 8:
-            print("La identificacion es valida")
-        else:
-            print("No es valida")
-            
+        print("nombre_completo: ", self.nombre)
+        print("edad: ", self.edad)
+        print("tipo_identificacion: ", self.get_tipo_identificacion())
+        print("identificacion: ", self.get_identificacion())
+        print("nacionalidad: ", self.get_nacionalidad())
 
-persona=Persona("juan",20,"Dni ","32400127","Argentina")
+    # ---------- 2) VERIFICAR IDENTIFICACIÓN VÁLIDA ----------
+    def verificar_identificacion(self):
+       
+        if self.__identificacion is None or str(self.__identificacion).strip() == "":
+            print("La identificación no es válida (está vacía).")
+            return False
+
+        print("La identificación es válida.")
+        return True
+
+
+persona = Persona("arian", 16, "Dni ", "32400127", "Argentina")
 persona.verificar_identificacion()
 persona.mostrar_datos()
 persona.es_mayor_edad()

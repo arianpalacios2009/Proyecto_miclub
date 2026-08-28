@@ -9,101 +9,114 @@
 
 #● getters y setters
 
+from club import Club   # importamos la clase Club, porque ClubDeportivo va a heredar de ella
 
-from club import Club
+class ClubDeportivo(Club):   # ClubDeportivo hereda todo lo que ya tiene Club (nombre, presidente, etc.)
 
-class ClubDeportivo(Club):
-    def __init__(self, nombre, descripcion, ubicacion, presidente, fecha_fundacion,socios,actividades):
-        #llama al constructor del Club
+    def __init__(self, nombre, descripcion, ubicacion, presidente, fecha_fundacion, socios, actividades):
+        # Le pasamos los primeros 5 datos al constructor de Club, para que arme
+        # todo lo que ya sabe manejar (nombre, descripcion, ubicacion, presidente, fecha_fundacion)
         super().__init__(nombre, descripcion, ubicacion, presidente, fecha_fundacion)
-        self.__socios= []
-        self.actividades= []
 
+        # Se decidió que estas dos listas arranquen siempre vacías,
+        # sin importar lo que se reciba en "socios" y "actividades".
+        # Los socios y actividades se van a ir agregando después con los métodos de más abajo.
 
+        self.__socios = []       # lista privada (doble guión bajo): solo se toca desde adentro de la clase
+        self.actividades = []    # lista pública: se puede leer/modificar directamente desde afuera
+
+    # ---------- GETTERS ----------
     def get_socios(self):
-        return self.__socios
+        return self.__socios      # devuelve la lista de socios (para poder leerla desde afuera)
+
     def get_actividades(self):
-        return self.actividades
-    
-    def set_socios(self,socios):
-        self.__socios= socios
-    def set_actividades(self,actividades):
-        self.actividades=actividades
+        return self.actividades   # devuelve la lista de actividades
 
+    # ---------- SETTERS ----------
+    def set_socios(self, socios):
+        self.__socios = socios    # reemplaza toda la lista de socios por una nueva
+
+    def set_actividades(self, actividades):
+        self.actividades = actividades   # reemplaza toda la lista de actividades por una nueva
+
+    # ---------- MOSTRAR DATOS DEL CLUB ----------
     def mostrar(self):
-        print("Nombre:", self.nombre)
-        print("Descripcion:", self.descripcion)
-        print("Ubicacion:", self.ubicacion)
-        print("Presidente:", self.get_presidente())
-        print("Fundacion:", self.get_fecha_fundacion())
-        print("socios:",self.__socios)
-        print("actividades:",self.actividades)
+        print("Nombre:", self.nombre)                    # atributo heredado de Club (público)
+        print("Descripcion:", self.descripcion)           # atributo heredado de Club (público)
+        print("Ubicacion:", self.ubicacion)                # atributo heredado de Club (público)
+        print("Presidente:", self.get_presidente())        # usamos el getter heredado de Club
+        print("Fundacion:", self.get_fecha_fundacion())    # usamos el getter heredado de Club
+        print("socios:", self.__socios)                    # lista de socios de ESTA categoría
+        print("actividades:", self.actividades)            # lista de actividades de ESTA categoría
 
+    # ---------- 1) REGISTRAR NUEVOS SOCIOS ----------
+    def registrar_socios(self, socio, activo=True):
+        # guardamos si el socio arranca activo o no, como un atributo dentro del objeto socio
+        socio.activo = activo
+        self.__socios.append(socio)   # agregamos el objeto socio al final de la lista
+        print("Se agregó el socio.")
 
-
-    #Incorporar la funcionalidad para registrar nuevos socios dentro de la categoría correspondiente.
-
-    def registrar_socios(self,socio, activo = True):
-        self.__socios.append(socio)
-        print("se agrego socio")
-
-    #Obtener la cantidad total de socios registrados en la categoría.
-
-    def cantidad_socio(self):
-        return len(self.__socios)      
-
-
-    #Permitir agregar nuevas actividades deportivas, recreativas o culturales ofrecidas por el club.
-    
-    def actividad_nueva(self,actividad):
-        self.actividades.append(actividad)
-        print("agregando actividad nueva")
-        
-    #Mostrar un listado completo de las actividades que se realizan en la categoría.
-
-    def mostrar_actividades(self):
-        for i in self.actividades:
-            print(i)
-        
-
-    #Permitir eliminar socios de la categoría cuando estos dejen de pertenecer a ella.
-    def eliminar_socios (self,socio):
-        if socio in self.__socios:
-            self.__socios.remove(socio)
-            print(f"Socio {socio.nombre} {socio.apellido} eliminado de la categoría {self.nombre}.")
+    # ---------- 2) ELIMINAR SOCIOS ----------
+    def eliminar_socios(self, socio):
+        if socio in self.__socios:              # chequeamos que el socio realmente esté en la lista
+            self.__socios.remove(socio)          # si está, lo sacamos
+            print(f"Socio '{socio.get_usuario()}' eliminado de la categoría {self.nombre}.")
         else:
-            print("Ese socio no pertenece a esta categoría.")
+            print("Ese socio no pertenece a esta categoría.")   # si no estaba, avisamos
 
-#Implementar una búsqueda que permita localizar rápidamente un socio utilizando algún dato identificatorio.
-    def localizar_socio_con_identificacion(self,dni):
-        for socio in self.__socios:
-            if socio.dni == dni:
-                print(f"Socio encontrado: {socio.nombre} {socio.apellido} (DNI {dni})")
-                return socio
-        print(f"No se encontró ningún socio con DNI {dni}.")
-        return None
-    
-    #Permitir eliminar actividades que ya no se encuentren disponibles.
+    # ---------- 3) LOCALIZAR SOCIO POR IDENTIFICACIÓN ----------
+    def localizar_socio_con_identificacion(self, usuario):
+        for socio in self.__socios:                     # recorremos cada socio de la lista
+            if socio.get_usuario() == usuario:            # comparamos su usuario con el buscado
+                print(f"Socio encontrado: usuario '{usuario}'.")
+                return socio                               # cortamos apenas lo encontramos y lo devolvemos
+        print(f"No se encontró ningún socio con usuario '{usuario}'.")
+        return None    # si el for termina sin encontrarlo, devolvemos None
+
+    # ---------- 4) CANTIDAD TOTAL DE SOCIOS ----------
+    def cantidad_socio(self):
+        return len(self.__socios)    # len() cuenta cuántos elementos tiene la lista
+
+    # ---------- 5) AGREGAR NUEVA ACTIVIDAD ----------
+    def actividad_nueva(self, actividad):
+        self.actividades.append(actividad)   # agregamos la actividad al final de la lista
+        print("Agregando actividad nueva.")
+
+    # ---------- 6) ELIMINAR ACTIVIDAD ----------
     def eliminar_actividad(self, actividad):
-        if actividad in self.actividades:
-            self.actividades.remove(actividad)
+        if actividad in self.actividades:               # chequeamos que exista en la lista
+            self.actividades.remove(actividad)            # si existe, la sacamos
             print(f"Actividad '{actividad}' eliminada de la categoría {self.nombre}.")
         else:
             print(f"La actividad '{actividad}' no existe en esta categoría.")
 
+    # ---------- 7) LISTADO DE ACTIVIDADES ----------
+    def mostrar_actividades(self):
+        for i in self.actividades:   # recorremos toda la lista de actividades
+            print(i)                  # imprimimos cada una
 
-    #Calcular qué porcentaje de los socios registrados se encuentra actualmente en estado activo.
-
+    # ---------- 8) PORCENTAJE DE SOCIOS ACTIVOS ----------
     def calcular_porcentaje(self):
-        if not self.__socios:
+        if not self.__socios:               # si la lista está vacía, evitamos dividir por cero
             return 0.0
 
-        activos = 0
-        for socio in self.__socios:
-            if socio.activo:
-                activos += 1
+        activos = 0                          # contador, arranca en 0
+        for socio in self.__socios:           # recorremos todos los socios
+            if socio.activo:                   # si ese socio está marcado como activo
+                activos += 1                     # sumamos 1 al contador
 
-        return (activos * 100) / len(self.__socios)
+        return (activos * 100) / len(self.__socios)   # regla de 3: (activos * 100) / total
 
-club_boca = ClubDeportivo("Boca juniors","Gigante del fútbol mundial, apodado Xeneize. Famoso por su estadio La Bombonera y su enorme identidad popular.","Barrio de La Boca, Buenos Aires, Argentina ","Juan Román Riquelme","3 de abril de 1905",264,000)
-club_boca.mostrar()
+
+club_boca = ClubDeportivo(
+    "Boca juniors",                     # nombre
+    "Gigante del fútbol mundial, apodado Xeneize. Famoso por su estadio La Bombonera "
+    "y su enorme identidad popular.",    # descripcion
+    "Barrio de La Boca, Buenos Aires, Argentina",   # ubicacion
+    "Juan Román Riquelme",               # presidente
+    "3 de abril de 1905",                # fecha_fundacion
+    [],                                   # socios (se ignora, siempre arranca vacío)
+    []                                    # actividades (se ignora, siempre arranca vacío)
+)
+
+club_boca.mostrar()   # imprime todos los datos del club recién creado
