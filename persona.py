@@ -27,8 +27,8 @@
 
 class Persona():
     def __init__(self, nombre_completo, edad, tipo_identificacion, identificacion, nacionalidad):
-        self.nombre = nombre_completo   # atributo público: nombre completo de la persona
-        self.edad = edad                # atributo público: edad de la persona
+        self.nombre = nombre_completo   
+        self.edad = edad
 
         # atributos privados (doble guión bajo): solo se acceden con getters/setters
         self.__tipo_identificacion = tipo_identificacion   # ej: "DNI", "Pasaporte"

@@ -14,30 +14,23 @@ from club import Club   # importamos la clase Club, porque ClubDeportivo va a he
 class ClubDeportivo(Club):   # ClubDeportivo hereda todo lo que ya tiene Club (nombre, presidente, etc.)
 
     def __init__(self, nombre, descripcion, ubicacion, presidente, fecha_fundacion, socios, actividades):
-        # Le pasamos los primeros 5 datos al constructor de Club, para que arme
-        # todo lo que ya sabe manejar (nombre, descripcion, ubicacion, presidente, fecha_fundacion)
         super().__init__(nombre, descripcion, ubicacion, presidente, fecha_fundacion)
-
-        # Se decidió que estas dos listas arranquen siempre vacías,
-        # sin importar lo que se reciba en "socios" y "actividades".
-        # Los socios y actividades se van a ir agregando después con los métodos de más abajo.
-
         self.__socios = []       # lista privada (doble guión bajo): solo se toca desde adentro de la clase
-        self.actividades = []    # lista pública: se puede leer/modificar directamente desde afuera
+        self.__actividades = []    # lista pública: se puede leer/modificar directamente desde afuera
 
     # ---------- GETTERS ----------
     def get_socios(self):
         return self.__socios      # devuelve la lista de socios (para poder leerla desde afuera)
 
     def get_actividades(self):
-        return self.actividades   # devuelve la lista de actividades
+        return self.__actividades   # devuelve la lista de actividades
 
     # ---------- SETTERS ----------
     def set_socios(self, socios):
         self.__socios = socios    # reemplaza toda la lista de socios por una nueva
 
     def set_actividades(self, actividades):
-        self.actividades = actividades   # reemplaza toda la lista de actividades por una nueva
+        self.__actividades = actividades   # reemplaza toda la lista de actividades por una nueva
 
     # ---------- MOSTRAR DATOS DEL CLUB ----------
     def mostrar(self):
@@ -52,6 +45,9 @@ class ClubDeportivo(Club):   # ClubDeportivo hereda todo lo que ya tiene Club (n
     # ---------- 1) REGISTRAR NUEVOS SOCIOS ----------
     def registrar_socios(self, socio, activo=True):
         # guardamos si el socio arranca activo o no, como un atributo dentro del objeto socio
+
+#verificar si el socio esta dentro de la lista con una condicion
+
         socio.activo = activo
         self.__socios.append(socio)   # agregamos el objeto socio al final de la lista
         print("Se agregó el socio.")
@@ -60,14 +56,14 @@ class ClubDeportivo(Club):   # ClubDeportivo hereda todo lo que ya tiene Club (n
     def eliminar_socios(self, socio):
         if socio in self.__socios:              # chequeamos que el socio realmente esté en la lista
             self.__socios.remove(socio)          # si está, lo sacamos
-            print(f"Socio '{socio.get_usuario()}' eliminado de la categoría {self.nombre}.")
+            print(f"Socio '{socio.get_socios()}' eliminado de la categoría {self.nombre}.")
         else:
             print("Ese socio no pertenece a esta categoría.")   # si no estaba, avisamos
 
     # ---------- 3) LOCALIZAR SOCIO POR IDENTIFICACIÓN ----------
     def localizar_socio_con_identificacion(self, usuario):
         for socio in self.__socios:                     # recorremos cada socio de la lista
-            if socio.get_usuario() == usuario:            # comparamos su usuario con el buscado
+            if socio.get_socios() == usuario:            # comparamos su usuario con el buscado
                 print(f"Socio encontrado: usuario '{usuario}'.")
                 return socio                               # cortamos apenas lo encontramos y lo devolvemos
         print(f"No se encontró ningún socio con usuario '{usuario}'.")
@@ -79,20 +75,23 @@ class ClubDeportivo(Club):   # ClubDeportivo hereda todo lo que ya tiene Club (n
 
     # ---------- 5) AGREGAR NUEVA ACTIVIDAD ----------
     def actividad_nueva(self, actividad):
-        self.actividades.append(actividad)   # agregamos la actividad al final de la lista
+
+#consultar primero si existe la actividad 
+
+        self.__actividades.append(actividad)   # agregamos la actividad al final de la lista
         print("Agregando actividad nueva.")
 
     # ---------- 6) ELIMINAR ACTIVIDAD ----------
     def eliminar_actividad(self, actividad):
-        if actividad in self.actividades:               # chequeamos que exista en la lista
-            self.actividades.remove(actividad)            # si existe, la sacamos
+        if actividad in self.__actividades:               # chequeamos que exista en la lista
+            self.__actividades.remove(actividad)            # si existe, la sacamos
             print(f"Actividad '{actividad}' eliminada de la categoría {self.nombre}.")
         else:
             print(f"La actividad '{actividad}' no existe en esta categoría.")
 
     # ---------- 7) LISTADO DE ACTIVIDADES ----------
     def mostrar_actividades(self):
-        for i in self.actividades:   # recorremos toda la lista de actividades
+        for i in self.__actividades:   # recorremos toda la lista de actividades
             print(i)                  # imprimimos cada una
 
     # ---------- 8) PORCENTAJE DE SOCIOS ACTIVOS ----------

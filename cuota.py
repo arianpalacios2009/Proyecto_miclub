@@ -31,6 +31,7 @@ class Cuota:
         
     #Registrar una cuota como pagada.
     def pagar_cuota(self):
+#verificar que recorra la lista para ver si el estado esta pagado o pendiente
         self.__estado="pagada"
         print("la cuota esta pagada")
     #Determinar si una cuota se encuentra vencida comparando la fecha de vencimiento con la fecha actual.

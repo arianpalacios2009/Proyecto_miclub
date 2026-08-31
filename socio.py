@@ -40,47 +40,18 @@ class Socio:
 
     # ---------- 7) CAMBIAR ESTADO A SUSPENDIDO ----------
     def cambiar_estado(self):
+#verificar que recorra la lista para ver si el tipo de estado 
+
         self.estado = "suspendido"     # pasa el estado del socio a "suspendido"
         print("el estado esta suspendido")
 
     # ---------- 4) REGISTRAR PAGO DE CUOTA (pendiente de terminar) ----------
-    # NOTA: esto todavía no cumple bien la consigna. Está usando self.estado
-    # (que es el estado del SOCIO: activo/suspendido/inactivo) para guardar
-    # algo que en realidad pertenece a una CUOTA. Falta la clase Cuota para
-    # poder resolverlo correctamente (buscar la cuota en self.lista_cuota
-    # y marcarla como pagada, en vez de tocar self.estado).
     def registrar_pago_de_cuota(self):
+#verificar que recorra la lista para ver si el tipo de estado 
+
         self.estado = "pendiente"
         print("el pago esta pendiente")
 
-    # ---------- 1) ASOCIARSE A UNO O MÁS CLUBES ----------
-    def asociar_club(self, club):
-        if club not in self.lista_clubes:        # evita agregar el mismo club dos veces
-            self.lista_clubes.append(club)
-            print(f"El socio se asoció al club {club.nombre}.")
-        else:
-            print("El socio ya está asociado a ese club.")
-
-    # ---------- 2) DEJAR DE PERTENECER A UN CLUB ----------
-    def dejar_club(self, club):
-        if club in self.lista_clubes:             # solo saca el club si realmente está en la lista
-            self.lista_clubes.remove(club)
-            print(f"El socio se desasoció del club {club.nombre}.")
-        else:
-            print("El socio no está asociado a ese club.")
-
-    # ---------- 5) INFORMAR SI TIENE DEUDAS ----------
-    def informar_socio(self):
-        for cuota in self.lista_cuota:            # recorremos todas las cuotas del socio
-            if not cuota.pagada:                   # si encontramos UNA que no está pagada...
-                print("El socio posee cuotas sin abonar.")
-                # CORREGIDO: antes el "return True" estaba afuera del "if",
-                # entonces cortaba en la primera vuelta del for sin importar
-                # si esa cuota estaba pagada o no. Ahora sí queda adentro del "if",
-                # así solo corta cuando realmente encontró una deuda.
-                return True
-        print("El socio no posee deudas.")
-        return False   # si el for termina sin encontrar ninguna deuda, no debe nada
 
     # ---------- 6) CANTIDAD DE CUOTAS PENDIENTES ----------
     def cantidad_cuotas(self):
@@ -91,24 +62,10 @@ class Socio:
         print(f"El socio tiene {cantidad} cuota(s) pendiente(s).")
         return cantidad
 
-    # ---------- 8) REACTIVAR SOCIO SUSPENDIDO ----------
-    def reactivar_socio_suspendido(self):
-        if self.estado == "suspendido":            # solo reactiva si realmente estaba suspendido
-            # CORREGIDO: antes decía "activado", que no coincide con el resto
-            # del código (cambiar_estado usa "suspendido", y en otros lados
-            # se compara contra "activo"). Ahora queda consistente.
-            self.estado = "activo"
-            print("El socio fue reactivado y su estado ahora es activo.")
-        else:
-            print("El socio no está suspendido, no es necesario reactivarlo.")
 
     # ---------- 9) ACTUALIZAR CONTRASEÑA ----------
     def actualizar_contrasena(self, nueva_contrasena):
         self.__contrasena = nueva_contrasena
-        # CORREGIDO: antes este print() estaba escrito con 0 espacios de
-        # indentación, entonces quedaba AFUERA del método por completo.
-        # Eso hacía que se ejecutara una sola vez, al definirse la clase,
-        # en vez de ejecutarse cada vez que se llama al método.
         print("Contraseña actualizada.")
 
     # ---------- 10) VERIFICAR CREDENCIALES DE ACCESO ----------
