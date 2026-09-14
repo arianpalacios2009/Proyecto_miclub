@@ -25,15 +25,13 @@ class Cuota:
         self.__estado=estado
     
     def mostrar(self):
-        print("estado: ",self.__estado)
-        print("fecha de nacimiento: ",self.fecha_de_vencimiento)
-        print("periodo: ",self.periodo)
+        return "estado: ",self.__estado,"fecha de nacimiento: ",self.fecha_de_vencimiento,"periodo: ",self.periodo
         
     #Registrar una cuota como pagada.
     def pagar_cuota(self):
 #verificar que recorra la lista para ver si el estado esta pagado o pendiente
         self.__estado="pagada"
-        print("la cuota esta pagada")
+        return ("la cuota esta pagada")
     #Determinar si una cuota se encuentra vencida comparando la fecha de vencimiento con la fecha actual.
 
     def determinar(self):
@@ -55,13 +53,13 @@ class Cuota:
         dias = diferencia.days
 
         if self.__estado == "pagada":
-            print("La cuota ya está pagada.")
+            return ("La cuota ya está pagada.")
         elif dias > 0:
-            print(f"Faltan {dias} días para el vencimiento.")
+            return (f"Faltan {dias} días para el vencimiento.")
         elif dias == 0:
-            print("La cuota vence hoy.")
+            return ("La cuota vence hoy.")
         else:
-            print(f"La cuota está vencida hace {abs(dias)} días.") 
+            return (f"La cuota está vencida hace {abs(dias)} días.") 
     
 #Informar cuántos días faltan para el vencimiento de una cuota.
     def informar_dias_faltantes(self):
@@ -70,13 +68,13 @@ class Cuota:
         dias = diferencia.days
  
         if self.__estado == "pagada":
-            print("La cuota ya está pagada.")
+            return("La cuota ya está pagada.")
         elif dias > 0:
-            print(f"Faltan {dias} días para el vencimiento.")
+            return(f"Faltan {dias} días para el vencimiento.")
         elif dias == 0:
-            print("La cuota vence hoy.")
+            return("La cuota vence hoy.")
         else:
-            print(f"La cuota está vencida hace {abs(dias)} días.")
+            return(f"La cuota está vencida hace {abs(dias)} días.")
 
 #Permitir la renovación de una cuota para un nuevo período.
     def renovar_cuota(self):
@@ -96,7 +94,7 @@ class Cuota:
         self.periodo = f"{nuevo_mes:02d}/{nuevo_anio}"
         self.__estado = "pendiente"
 
-        print(f"Cuota renovada. Nuevo período: {self.periodo}, "
+        return (f"Cuota renovada. Nuevo período: {self.periodo}, "
             f"vence el {nueva_fecha.strftime('%d/%m/%Y')}")          
  
 pagar=Cuota("pendiente", date(2026,8,1), "08/2026")

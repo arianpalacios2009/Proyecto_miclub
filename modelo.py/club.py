@@ -43,12 +43,10 @@ class Club:
 
     # Mostrar información
     def mostrar_info(self):
-        print("Nombre:", self.nombre)
-        print("Descripción:", self.descripcion)
-        print("Ubicación:", self.ubicacion)
-        print("Presidente:", self.get_presidente())
-        print("Fecha de fundación:", self.get_fecha_fundacion())
-        print("Antigüedad:", self.antiguedad(), "años")
+        
+        return ("Nombre:", self.nombre,"Descripción:", self.descripcion,"Ubicación:",                   
+            self.ubicacion,"Presidente:", self.get_presidente(),"Fecha de fundación:",          
+                self.get_fecha_fundacion(),"Antigüedad:", self.antiguedad(), "años")
 
     # Calcular la antigüedad del club
     def antiguedad(self):
@@ -65,23 +63,23 @@ class Club:
     # Mostrar año de antigüedad (método solicitado)
     def mostrar_anio_antiguedad(self):
         #Muestra por pantalla la antigüedad del club calculando los años,transcurridos desde su fecha de fundación hasta la fecha actual.
-        print(f"El club {self.nombre} tiene {self.antiguedad()} años de antigüedad "
+        return(f"El club {self.nombre} tiene {self.antiguedad()} años de antigüedad "
               f"(fundado el {self.__fecha_fundacion.strftime('%d/%m/%Y')}).")
  
     # Determinar si el club es histórico
     def determinar_club(self):
 
         if self.antiguedad() >= 50:
-            print("Es una institución histórica.")
+            return "Es una institución histórica."
         else:
-            print("No es una institución histórica.")
+            return"No es una institución histórica."
 
 
     #Permitir modificar el presidente del club cuando se produzca un cambio de autoridades.
     def cambiar_presidente(self,nuevo_presidente):
         anterior=self.__presidente
         self.__presidente= nuevo_presidente
-        print(f"Cambio de autoridades: {anterior} no es mas presidente,el nuevo presidente de ahora en adelante es {nuevo_presidente}")
+        return (f"Cambio de autoridades: {anterior} no es mas presidente,el nuevo presidente de ahora en adelante es {nuevo_presidente}")
 
 club1 = Club("Boca Juniors","Xeneize","Ciudad Autónoma de Buenos Aires","Juan Román Riquelme",date(1905, 4, 3))
 
