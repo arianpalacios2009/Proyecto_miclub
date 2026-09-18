@@ -24,7 +24,7 @@ print(cuota1.renovar_cuota())
 
 from modelo.persona import Persona
 
-persona1 = Persona("Arian", 16, "DNI", "32400127", "Argentina")
+persona1 = Persona("Arian ", 16 , " DNI ", " 32400127 ", " Argentina ")
 print(persona1.verificar_identificacion())
 print(persona1.mostrar_datos())
 print(persona1.es_mayor_edad())
@@ -32,9 +32,9 @@ print(persona1.es_mayor_edad())
 
 from modelo.socio import Socio
 
-socio1 = Socio("Pepito ", 25, "DNI", "40111222", "Argentina","10/06/2026", "activo", "pepito123", "12345678", rol="socio")
+socio1 = Socio(" Pepito ", 30 , " DNI ", " 40111222 ", " Argentina "," 10/06/2026 ", " activo ", " pepito123 ", " 12345678 ", rol="socio" )
 
-print(socio1.mostrar_datos())      # heredado de Persona
+print(socio1.mostrar_datos())      
 print(socio1.registrar_pago_de_cuota())
 print(socio1.cambiar_estado())
 print("¿Es admin?:", socio1.es_admin())
