@@ -17,7 +17,7 @@ from modelo.persona import Persona
 
 class Socio(Persona):
     def __init__(self, nombre_completo, edad, tipo_identificacion, identificacion,
-                 nacionalidad, fecha_inscripcion, estado, usuario, contrasena, rol="socio"):
+                 nacionalidad, fecha_inscripcion, estado,rol, usuario, contrasena):
 
         # inicializa lo que viene de Persona
         super().__init__(nombre_completo, edad, tipo_identificacion, identificacion, nacionalidad)
@@ -29,7 +29,7 @@ class Socio(Persona):
 
         self.__usuario = usuario
         self.__contrasena = contrasena
-        self.__rol = rol   # "socio" o "admin"
+        self.rol = rol   # "socio" o "admin"
 
     # ---------- GETTERS ----------
     def get_usuario(self):
@@ -38,9 +38,6 @@ class Socio(Persona):
     def get_contrasena(self):
         return self.__contrasena
 
-    def get_rol(self):
-        return self.__rol
-
     # ---------- SETTERS ----------
     def set_usuario(self, usuario):
         self.__usuario = usuario
@@ -48,12 +45,9 @@ class Socio(Persona):
     def set_contrasena(self, contrasena):
         self.__contrasena = contrasena
 
-    def set_rol(self, rol):
-        self.__rol = rol
-
     # ---------- ROL: reemplaza a la clase Administrador ----------
     def es_admin(self):
-        return self.__rol == "admin"
+        return self.rol == "admin"
 
     # ---------- CAMBIAR ESTADO ----------
     def cambiar_estado(self):

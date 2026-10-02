@@ -28,7 +28,7 @@
 
 class Persona:
     def __init__(self, nombre_completo, edad, tipo_identificacion, identificacion, nacionalidad):
-        self.nombre = nombre_completo
+        self.nombre_completo = nombre_completo
         self.edad = edad
 
         # atributos privados
