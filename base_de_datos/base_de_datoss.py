@@ -1,5 +1,5 @@
 import sqlite3
-from modelo.socio import Socio
+#from modelo.socio import Socio
 
 def conectar(ruta):
     conexion=sqlite3.connect(ruta)
@@ -46,4 +46,72 @@ def guardar_socio(conexion, socio):
     ))
     conexion.commit()
 
-   
+
+
+def guardar_cuota(conexion, usuario, cuota):
+    """Guarda una cuota asociada a un socio."""
+    cursor = conexion.cursor()
+
+    cursor.execute(
+        "SELECT id FROM socios WHERE usuario = ?",
+        (usuario,)
+    )
+
+    fila = cursor.fetchone()
+
+    if fila is None:
+        raise ValueError("El socio no existe")
+
+    socio_id = fila[0]
+
+    cursor.execute("""
+        INSERT INTO cuotas (socio_id, periodo, fecha_vencimiento, estado)
+        VALUES (?, ?, ?, ?)
+    """, (
+        socio_id,
+        cuota.periodo,
+        cuota.fecha_vencimiento.isoformat(),
+        cuota.estado
+    ))
+
+    conexion.commit()
+
+
+def listar_cuotas_de_socio(conexion, usuario):
+    """Devuelve una lista de objetos Cuota para el socio con ese usuario."""
+    cursor = conexion.cursor()
+
+    # Buscar el id del socio
+    cursor.execute(
+        "SELECT id FROM socios WHERE usuario = ?",
+        (usuario,)
+    )
+
+    fila = cursor.fetchone()
+
+    if fila is None:
+        return []
+
+    socio_id = fila[0]
+
+    # Traer las cuotas de ese socio
+    cursor.execute(
+        "SELECT periodo, estado, fecha_vencimiento "
+        "FROM cuotas WHERE socio_id = ?",
+        (socio_id,)
+    )
+
+    from datetime import date
+    from modelo.cuota import Cuota
+
+    cuotas = []
+
+    for periodo, estado, fecha_vencimiento in cursor.fetchall():
+        cuota = Cuota(
+            estado,
+            date.fromisoformat(fecha_vencimiento),
+            periodo
+        )
+        cuotas.append(cuota)
+
+    return cuotas
