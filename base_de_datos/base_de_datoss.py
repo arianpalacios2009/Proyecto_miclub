@@ -22,7 +22,18 @@ def crear_tablas(conexion):
             contrasena         TEXT NOT NULL
         )
     """)
-    conexion.commit()
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS cuotas (
+            id_cuota            INTEGER PRIMARY KEY AUTOINCREMENT,
+            socio_id INTEGER NOT NULL`
+            estado              TEXT DEFAULT 'pediente'              
+            fecha_de_vencimiento    TEXT,
+            periodo                 TEXT,
+            FOREIGN KEY (socio_id) REFERENCES socios(id)
+    """)
+    conexion.commit()    
+
+
 
 def guardar_socio(conexion, socio):
     """Recibe un objeto Socio y lo guarda en la tabla socios."""
@@ -96,10 +107,11 @@ def listar_cuotas_de_socio(conexion, usuario):
 
     # Traer las cuotas de ese socio
     cursor.execute(
-        "SELECT periodo, estado, fecha_vencimiento "
-        "FROM cuotas WHERE socio_id = ?",
+        "SELECT periodo, estado, fecha_vencimiento FROM cuotas WHERE socio_id = ?",
         (socio_id,)
     )
+
+
 
     from datetime import date
     from modelo.cuota import Cuota
