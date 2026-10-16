@@ -1,4 +1,7 @@
 import sqlite3
+from datetime import date
+from modelo.cuota import Cuota
+
 #from modelo.socio import Socio
 
 def conectar(ruta):
@@ -25,7 +28,7 @@ def crear_tablas(conexion):
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS cuotas (
             id_cuota            INTEGER PRIMARY KEY AUTOINCREMENT,
-            socio_id INTEGER NOT NULL`
+            socio_id            INTEGER NOT NULL,
             estado              TEXT DEFAULT 'pediente'              
             fecha_de_vencimiento    TEXT,
             periodo                 TEXT,
@@ -110,12 +113,6 @@ def listar_cuotas_de_socio(conexion, usuario):
         "SELECT periodo, estado, fecha_vencimiento FROM cuotas WHERE socio_id = ?",
         (socio_id,)
     )
-
-
-
-    from datetime import date
-    from modelo.cuota import Cuota
-
     cuotas = []
 
     for periodo, estado, fecha_vencimiento in cursor.fetchall():

@@ -12,7 +12,7 @@
 
 #● getters y setters
 # socio.py
-from modelo.persona import Persona
+from persona import Persona
 
 
 class Socio(Persona):
@@ -77,3 +77,11 @@ class Socio(Persona):
         if usuario_ingresado == self.__usuario and contrasena_ingresada == self.__contrasena:
             return True
         return False
+    
+usuario=Socio("ramiro",25,"Dni","20900888","Argentina","6/10/2019","activo","admin","ramiro123","12345678")
+usuario.es_admin()
+usuario.cambiar_estado()
+usuario.registrar_pago_de_cuota()
+usuario.cantidad_cuotas()
+usuario.actualizar_contrasena("1234567")
+usuario.verificar_acceso("ramiro123","1234567")

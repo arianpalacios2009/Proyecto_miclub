@@ -6,3 +6,4 @@ class Actividad :
 
     def mostrarInfo(self):
         return f"Actividad: {self.nombre} , Día: {self.dia} , Horario: {self.horario}"
+    

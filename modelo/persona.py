@@ -66,7 +66,7 @@ class Persona:
     # ---------- MOSTRAR DATOS ----------
     def mostrar_datos(self):
         return (
-            f"nombre_completo: {self.nombre}"
+            f"nombre_completo: {self.nombre_completo}"
             f"edad: {self.edad}"
             f"tipo_identificacion: {self.get_tipo_identificacion()}"
             f"identificacion: {self.get_identificacion()}"
@@ -78,3 +78,8 @@ class Persona:
         if self.__identificacion is None or str(self.__identificacion).strip() == "":
             return False
         return True
+
+personas=Persona("Ramiro",25,"Dni","20900888","Argentina")
+personas.es_mayor_edad()
+personas.mostrar_datos()
+personas.verificar_identificacion()

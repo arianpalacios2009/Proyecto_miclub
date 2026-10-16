@@ -70,3 +70,5 @@ class Club:
             f"Cambio de autoridades: {anterior} no es mas presidente, "
             f"el nuevo presidente de ahora en adelante es {nuevo_presidente}"
         )
+    
+club_nuevo=Club("Boca juniors","bostero hasta al final","barrio de la boca","juan roman riquelme","3 de abril de 1905")
