@@ -7,9 +7,6 @@ from modelo.cuota import Cuota
 
 RUTA = Path(__file__).parent / "club.db"
 
-if RUTA.exists():
-    RUTA.unlink() #borra la tabla anterior(si es que estaba creada) y ejecuta una nueva
-
 conexion=conectar(str(RUTA))
 crear_tablas(conexion)
 
@@ -23,14 +20,19 @@ guardar_socio(conexion,socio3)
 print("se guardaron socios")
 
 
-guardar_cuota(conexion, "brenda123", Cuota("pendiente", date(2026, 10, 16), "Octubre 2026"))
-guardar_cuota(conexion, "juan321", Cuota("pendiente", date(2026, 9, 10), "Septiembre 2026"))
-guardar_cuota(conexion, "pepe30", Cuota("pendiente", date(2026, 7, 4), "Julio 2026"))
+cuota1 = Cuota("pendiente", date(2026, 10, 16), "Octubre 2026")
+cuota2=Cuota("pendiente", date(2026, 9, 10), "Septiembre 2026")
+cuota3=Cuota("pendiente", date(2026, 7, 4), "Julio 2026")
+
+
+guardar_cuota(conexion, "brenda123", cuota1)
+guardar_cuota(conexion, "juan321",cuota2 )
+guardar_cuota(conexion, "pepe30", cuota3)
 print("se guardaron las cuotas")
 
-for usuario in ("Brenda123","Juan321","Pepe30"):
-    print(f"cuotas de {usuario}:")
+for usuario in ("brenda123","juan321","pepe30"):
+    print(f"cuotas de {usuario}: ")
     for cuotas in listar_cuotas_de_socio(conexion,usuario):
-        print (cuotas)
+        print(cuotas)
 
 conexion.close()

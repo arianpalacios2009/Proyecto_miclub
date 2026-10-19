@@ -33,7 +33,10 @@ def crear_tablas(conexion):
             fecha_de_vencimiento    TEXT,
             periodo                 TEXT,
             FOREIGN KEY (socio_id) REFERENCES socios(id)
+        )
     """)
+
+    
 
     conexion.commit()    
 
@@ -80,13 +83,14 @@ def guardar_cuota(conexion, usuario, cuota):
     socio_id = fila[0]
 
     cursor.execute("""
-        INSERT INTO cuotas (socio_id, periodo, fecha_vencimiento, estado)
+        INSERT INTO cuotas (socio_id, estado, fecha_de_vencimiento, periodo)
         VALUES (?, ?, ?, ?)
     """, (
         socio_id,
-        cuota.periodo,
-        cuota.fecha_vencimiento.isoformat(),
-        cuota.estado
+        cuota.get_estado(),
+        cuota.fecha_de_vencimiento.isoformat(),
+        cuota.periodo     
+   
     ))
 
     conexion.commit()
@@ -111,15 +115,15 @@ def listar_cuotas_de_socio(conexion, usuario):
 
     # Traer las cuotas de ese socio
     cursor.execute(
-        "SELECT periodo, estado, fecha_vencimiento FROM cuotas WHERE socio_id = ?",
+        "SELECT periodo, estado, fecha_de_vencimiento FROM cuotas WHERE socio_id = ?",
         (socio_id,)
     )
     cuotas = []
 
-    for periodo, estado, fecha_vencimiento in cursor.fetchall():
+    for periodo, estado, fecha_de_vencimiento in cursor.fetchall():
         cuota = Cuota(
             estado,
-            date.fromisoformat(fecha_vencimiento),
+            date.fromisoformat(fecha_de_vencimiento),
             periodo
         )
         cuotas.append(cuota)

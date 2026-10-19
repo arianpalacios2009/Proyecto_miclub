@@ -10,8 +10,6 @@
 #● getters y setters
 from datetime import date
 
-
-
 class Cuota:
     def __init__(self,estado,fecha_de_vencimiento,periodo):
         self.__estado=estado
