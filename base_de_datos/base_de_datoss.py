@@ -29,11 +29,12 @@ def crear_tablas(conexion):
         CREATE TABLE IF NOT EXISTS cuotas (
             id_cuota            INTEGER PRIMARY KEY AUTOINCREMENT,
             socio_id            INTEGER NOT NULL,
-            estado              TEXT DEFAULT 'pediente'              
+            estado              TEXT DEFAULT 'pendiente',            
             fecha_de_vencimiento    TEXT,
             periodo                 TEXT,
             FOREIGN KEY (socio_id) REFERENCES socios(id)
     """)
+
     conexion.commit()    
 
 

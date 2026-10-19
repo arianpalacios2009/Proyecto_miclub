@@ -22,14 +22,15 @@ guardar_socio(conexion,socio2)
 guardar_socio(conexion,socio3)
 print("se guardaron socios")
 
-guardar_cuota(conexion,"brenda123",Cuota("activo",date(2026,10,16)))
-guardar_cuota(conexion,"juan321",Cuota("activo",date(2026,9,10)))
-guardar_cuota(conexion,"pepe30",Cuota("activo",date(2026,7,4)))
+
+guardar_cuota(conexion, "brenda123", Cuota("pendiente", date(2026, 10, 16), "Octubre 2026"))
+guardar_cuota(conexion, "juan321", Cuota("pendiente", date(2026, 9, 10), "Septiembre 2026"))
+guardar_cuota(conexion, "pepe30", Cuota("pendiente", date(2026, 7, 4), "Julio 2026"))
 print("se guardaron las cuotas")
 
-for usuario in ("Brenda","Juan","Pepe"):
+for usuario in ("Brenda123","Juan321","Pepe30"):
     print(f"cuotas de {usuario}:")
     for cuotas in listar_cuotas_de_socio(conexion,usuario):
         print (cuotas)
 
-conexion.close
+conexion.close()

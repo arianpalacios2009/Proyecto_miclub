@@ -12,8 +12,7 @@
 
 #● getters y setters
 # socio.py
-from persona import Persona
-
+from modelo.persona import Persona
 
 class Socio(Persona):
     def __init__(self, nombre_completo, edad, tipo_identificacion, identificacion,
