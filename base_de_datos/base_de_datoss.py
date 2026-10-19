@@ -35,8 +35,25 @@ def crear_tablas(conexion):
             FOREIGN KEY (socio_id) REFERENCES socios(id)
         )
     """)
-
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS actividad(
+            id_actividad            INTEGER PRIMARY KEY AUTOINCREMENT,
+            nombre                  TEXT NOT NULL,
+            dia                     TEXT,
+            Horario                 TEXT
+        )
+    """)
     
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS club(
+            id_club                 INTEGER PRIMARY KEY AUTOINCREMENT,
+            nombre                  TEXT,
+            descripcion             TEXT,
+            ubicacion               TEXT,
+            presidente              TEXT,
+            fecha_fundacion         TEXT
+        )
+    """)
 
     conexion.commit()    
 
