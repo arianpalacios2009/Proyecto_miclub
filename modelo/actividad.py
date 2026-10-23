@@ -1,5 +1,5 @@
 class Actividad :
-    def init__(self,nombre,dia,horario):
+    def __init__(self,nombre,dia,horario):
         self.nombre=nombre
         self.dia=dia
         self.horario=horario

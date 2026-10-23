@@ -1,7 +1,6 @@
 from datetime import date 
 from pathlib import Path
-from base_de_datos.base_de_datoss import(conectar,crear_tablas,guardar_socio,guardar_cuota,listar_cuotas_de_socio)
-
+from base_de_datos.base_de_datoss import (conectar,crear_tablas,guardar_socio,buscar_socio_por_usuario,guardar_cuota,listar_cuotas_de_socio)
 from modelo.socio import Socio
 from modelo.cuota import Cuota
 
@@ -34,5 +33,12 @@ for usuario in ("brenda123","juan321","pepe30"):
     print(f"cuotas de {usuario}: ")
     for cuotas in listar_cuotas_de_socio(conexion,usuario):
         print(cuotas)
+
+socio_encontrado = buscar_socio_por_usuario(conexion, "brenda123")
+
+if socio_encontrado is not None:
+    print("Socio encontrado:", socio_encontrado.nombre_completo)
+else:
+    print("No se encontró el socio")
 
 conexion.close()
