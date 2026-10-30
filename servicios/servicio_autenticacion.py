@@ -12,7 +12,7 @@ def autenticar(usuario,contrasena):
     if socio is None:
         return None
     
-    if socio.get_contrasena ==contrasena:
+    if socio.get_contrasena() == contrasena:
         return socio
     
     return None
