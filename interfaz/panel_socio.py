@@ -20,3 +20,5 @@ class PanelSocio(tk.Toplevel):
         rol.pack(pady=10)
         boton_cerrar=ttk.Button(self, text="Cerrar", command=self.destroy)
         boton_cerrar.pack(pady=20)
+        
+#faltaria que cuando hago click en iniciar sesion ,si es un socio deberia redirigir al panel de socio y si es admin redirigir al panel admin

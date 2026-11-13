@@ -62,6 +62,13 @@ def crear_tablas(conexion):
             fecha_fundacion TEXT
         )
     """)
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS socio_club (
+            socio_id INTEGER REFERENCES socios(id),
+            club_id  INTEGER REFERENCES clubes(id),
+            PRIMARY KEY (socio_id, club_id)"""
+    )
+
 
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS socio_actividad (
@@ -387,3 +394,5 @@ def listar_actividades_de_socio(conexion, usuario):
         actividades.append(Actividad(nombre, dia, horario))
 
     return actividades
+
+#Agregá estas dos funciones al final de `base_datos/base_datos.py`:
