@@ -53,15 +53,7 @@ def listar_clubes_de_socio(usuario):
         conexion.close()
 
 
-def registrar_socio(
-    nombre,
-    edad,
-    tipo_identificacion,
-    identificacion,
-    nacionalidad,
-    usuario,
-    contrasenia
-):
+def registrar_socio(nombre,edad,tipo_identificacion,identificacion,nacionalidad,usuario,contrasenia):
     """Valida y registra un nuevo socio."""
 
     nombre = (nombre or "").strip()
