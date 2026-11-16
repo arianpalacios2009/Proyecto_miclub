@@ -79,7 +79,8 @@ class Persona:
             return False
         return True
 
-personas=Persona("Ramiro",25,"Dni","20900888","Argentina")
-personas.es_mayor_edad()
-personas.mostrar_datos()
-personas.verificar_identificacion()
+if __name__ == "__main__":
+    personas = Persona("Ramiro", 25, "Dni", "20900888", "Argentina")
+    personas.es_mayor_edad()
+    personas.mostrar_datos()
+    personas.verificar_identificacion()

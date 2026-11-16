@@ -154,3 +154,40 @@ def reactivar_socio(usuario):
     finally:
         conexion.close()
 
+
+def asegurar_admin():
+    """Crea un admin por defecto si la base de datos no tiene ninguno."""
+
+    conexion = conectar(str(RUTA_DB))
+
+    try:
+        cursor = conexion.cursor()
+
+        cursor.execute(
+            "SELECT COUNT(*) FROM socios WHERE rol = 'admin'"
+        )
+        cantidad = cursor.fetchone()[0]
+
+        if cantidad > 0:
+            return None
+
+        admin = Socio(
+            "Administrador del club",
+            None,
+            None,
+            None,
+            None,
+            date.today(),
+            "Activo",
+            "admin",
+            "admin",
+            "admin123"
+        )
+
+        guardar_socio(conexion, admin)
+
+        return admin
+
+    finally:
+        conexion.close()
+

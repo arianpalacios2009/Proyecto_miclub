@@ -31,15 +31,15 @@ class Cuota:
 
     # Registrar una cuota como pagada
     def pagar_cuota(self):
-        self.__estado = "pagada"
+        self.__estado = "Pagada"
         return "La cuota está pagada."
 
     # Determinar si la cuota está vencida
     def determinar(self):
         hoy = date.today()
 
-        if self.__estado != "pagada" and hoy > self.fecha_de_vencimiento:
-            self.__estado = "vencida"
+        if self.__estado != "Pagada" and hoy > self.fecha_de_vencimiento:
+            self.__estado = "Vencida"
             return True
 
         return False
@@ -54,14 +54,14 @@ class Cuota:
         diferencia = self.fecha_de_vencimiento - hoy
         dias = diferencia.days
 
-        if self.__estado == "pagada":
+        if self.__estado == "Pagada":
             return "La cuota ya está pagada."
         elif dias > 0:
             return f"Faltan {dias} días para el vencimiento."
         elif dias == 0:
             return "La cuota vence hoy."
         else:
-            self.__estado = "vencida"
+            self.__estado = "Vencida"
             return f"La cuota está vencida hace {abs(dias)} días."
 
     # Renovar la cuota para un nuevo período
@@ -86,7 +86,7 @@ class Cuota:
 
         self.fecha_de_vencimiento = nueva_fecha
         self.periodo = f"{nuevo_mes:02d}/{nuevo_anio}"
-        self.__estado = "pendiente"
+        self.__estado = "Pendiente"
 
         return (
             f"Cuota renovada. Nuevo período: {self.periodo}, "

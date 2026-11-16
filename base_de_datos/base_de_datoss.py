@@ -36,7 +36,7 @@ def crear_tablas(conexion):
         CREATE TABLE IF NOT EXISTS cuotas (
             id_cuota INTEGER PRIMARY KEY AUTOINCREMENT,
             socio_id INTEGER NOT NULL,
-            estado TEXT DEFAULT 'pendiente',
+            estado TEXT DEFAULT 'Pendiente',
             fecha_de_vencimiento TEXT,
             periodo TEXT,
             FOREIGN KEY (socio_id) REFERENCES socios(id)
@@ -66,8 +66,9 @@ def crear_tablas(conexion):
         CREATE TABLE IF NOT EXISTS socio_club (
             socio_id INTEGER REFERENCES socios(id),
             club_id  INTEGER REFERENCES clubes(id),
-            PRIMARY KEY (socio_id, club_id)"""
-    )
+            PRIMARY KEY (socio_id, club_id)
+        )
+    """)
 
 
     cursor.execute("""
@@ -79,6 +80,13 @@ def crear_tablas(conexion):
             FOREIGN KEY (actividad_id) REFERENCES actividades(id_actividad)
         )
     """)
+
+    cursor.execute("UPDATE socios SET estado = 'Activo' WHERE estado = 'activo'")
+    cursor.execute("UPDATE socios SET estado = 'Suspendido' WHERE estado = 'suspendido'")
+    cursor.execute("UPDATE socios SET estado = 'Inactivo' WHERE estado = 'inactivo'")
+    cursor.execute("UPDATE cuotas SET estado = 'Pendiente' WHERE estado = 'pendiente'")
+    cursor.execute("UPDATE cuotas SET estado = 'Pagada' WHERE estado = 'pagada'")
+    cursor.execute("UPDATE cuotas SET estado = 'Vencida' WHERE estado = 'vencida'")
 
     conexion.commit()
 
@@ -234,10 +242,14 @@ def guardar_club(conexion, club):
         club.descripcion,
         club.ubicacion,
         club.get_presidente(),
-        club.get_fecha_fundacion()
+        club.get_fecha_fundacion().isoformat()
+        if hasattr(club.get_fecha_fundacion(), "isoformat")
+        else club.get_fecha_fundacion()
     ))
 
     conexion.commit()
+
+    return cursor.lastrowid
 
 
 def obtener_club(conexion):
@@ -264,7 +276,7 @@ def obtener_club(conexion):
         descripcion,
         ubicacion,
         presidente,
-        date.fromisoformat(fecha_fundacion)
+        _convertir_fecha(fecha_fundacion)
     )
 
 
@@ -395,4 +407,134 @@ def listar_actividades_de_socio(conexion, usuario):
 
     return actividades
 
-#Agregá estas dos funciones al final de `base_datos/base_datos.py`:
+def listar_socios(conexion):
+    """Devuelve una lista con todos los socios registrados."""
+    cursor = conexion.cursor()
+
+    cursor.execute("""
+        SELECT nombre_completo, edad, tipo_identificacion,
+               identificacion, nacionalidad, fecha_inscripcion,
+               estado, rol, usuario, contrasena
+        FROM socios
+    """)
+
+    socios = []
+
+    for fila in cursor.fetchall():
+        (
+            nombre_completo, edad, tipo_identificacion,
+            identificacion, nacionalidad, fecha_inscripcion,
+            estado, rol, usuario, contrasena
+        ) = fila
+
+        socios.append(Socio(
+            nombre_completo,
+            edad,
+            tipo_identificacion,
+            identificacion,
+            nacionalidad,
+            _convertir_fecha(fecha_inscripcion),
+            estado,
+            rol,
+            usuario,
+            contrasena
+        ))
+
+    return socios
+
+
+def actualizar_estado_socio(conexion, usuario, estado):
+    """Cambia el estado de un socio."""
+    cursor = conexion.cursor()
+
+    cursor.execute(
+        "UPDATE socios SET estado = ? WHERE usuario = ?",
+        (estado, usuario)
+    )
+
+    conexion.commit()
+
+
+def pagar_cuota(conexion, usuario, periodo):
+    """Marca como Pagada la cuota de un socio para un periodo."""
+    cursor = conexion.cursor()
+
+    cursor.execute(
+        "SELECT id FROM socios WHERE usuario = ?",
+        (usuario,)
+    )
+    fila = cursor.fetchone()
+
+    if fila is None:
+        return "El socio no existe."
+
+    socio_id = fila[0]
+
+    cursor.execute("""
+        SELECT id_cuota FROM cuotas
+        WHERE socio_id = ? AND periodo = ?
+    """, (socio_id, periodo))
+    fila = cursor.fetchone()
+
+    if fila is None:
+        return f"No existe una cuota del periodo {periodo}."
+
+    cursor.execute(
+        "UPDATE cuotas SET estado = 'Pagada' WHERE id_cuota = ?",
+        (fila[0],)
+    )
+
+    conexion.commit()
+
+    return f"La cuota del periodo {periodo} fue pagada."
+
+
+def listar_clubes_de_socio(conexion, usuario):
+    """Devuelve los objetos Club a los que pertenece un socio."""
+    cursor = conexion.cursor()
+
+    cursor.execute(
+        "SELECT id FROM socios WHERE usuario = ?",
+        (usuario,)
+    )
+    fila = cursor.fetchone()
+
+    if fila is None:
+        return []
+
+    socio_id = fila[0]
+
+    cursor.execute("""
+        SELECT clubes.nombre, clubes.descripcion, clubes.ubicacion,
+               clubes.presidente, clubes.fecha_fundacion
+        FROM clubes
+        JOIN socio_club
+        ON clubes.id_club = socio_club.club_id
+        WHERE socio_club.socio_id = ?
+    """, (socio_id,))
+
+    from modelo.club import Club
+
+    clubes = []
+
+    for nombre, descripcion, ubicacion, presidente, fecha_fundacion in cursor.fetchall():
+        clubes.append(Club(
+            nombre,
+            descripcion,
+            ubicacion,
+            presidente,
+            _convertir_fecha(fecha_fundacion)
+        ))
+
+    return clubes
+
+
+def _convertir_fecha(valor):
+    """Convierte un texto ISO en date; si falla, devuelve el texto original."""
+    if isinstance(valor, date):
+        return valor
+
+    try:
+        return date.fromisoformat(valor)
+    except (TypeError, ValueError):
+        return valor

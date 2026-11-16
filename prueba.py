@@ -1,4 +1,3 @@
-
 from datetime import date
 from pathlib import Path
 
@@ -33,7 +32,7 @@ try:
         "30900777",
         "Argentina",
         date(2026, 10, 16),
-        "activo",
+        "Activo",
         "socio",
         "brenda123",
         "racing123"

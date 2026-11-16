@@ -38,6 +38,14 @@ class Club:
             f"Antigüedad: {self.antiguedad()} años"
         )
 
+    # Resumen de una línea para la interfaz
+    def informacion(self):
+        return (
+            f"{self.nombre} | {self.descripcion} | "
+            f"Ubicación: {self.ubicacion} | "
+            f"Presidente: {self.get_presidente()}"
+        )
+
     # Calcular la antigüedad del club
     def antiguedad(self):
         hoy = date.today()
@@ -71,4 +79,12 @@ class Club:
             f"el nuevo presidente de ahora en adelante es {nuevo_presidente}"
         )
     
-club_nuevo=Club("Boca juniors","bostero hasta al final","barrio de la boca","juan roman riquelme","3 de abril de 1905")
+if __name__ == "__main__":
+    club_nuevo = Club(
+        "Boca juniors",
+        "bostero hasta al final",
+        "barrio de la boca",
+        "juan roman riquelme",
+        date(1905, 4, 3)
+    )
+    club_nuevo.mostrar_info()

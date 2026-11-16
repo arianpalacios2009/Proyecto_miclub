@@ -16,7 +16,7 @@ from interfaz.tema import (
     TEXTO,
 )
 from servicios.servicio_cuotas import listar_cuotas, pagar_cuota
-from servicios.servicio_socios import listar_clubes_de_socio, obtener_socio
+from servicios.servicios_socios import listar_clubes_de_socio, obtener_socio
 
 
 class PanelSocio(tk.Frame):
@@ -253,7 +253,7 @@ class PanelSocio(tk.Frame):
             tabla.insert(
                 "",
                 "end",
-                values=(cuota.periodo, cuota.get_estado(), cuota.fecha_vencimiento),
+                values=(cuota.periodo, cuota.get_estado(), cuota.fecha_de_vencimiento),
                 tags=(rayado, cuota.get_estado()),
             )
             self._periodos.append(cuota.periodo)
