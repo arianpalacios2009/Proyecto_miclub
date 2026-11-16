@@ -16,7 +16,7 @@ TEXTO = "#081226"              # Azul casi negro para textos sobre fondos claros
 TEXTO_CLARO = "#F7A600"        # Dorado Boca para el texto sobre el azul principal (o "#FFFFFF" si prefieres blanco puro)
 FILA_PAR = "#EBF0F7"           # Rayado azul muy tenue para las filas pares de las tablas
 
-# Colores de estado (se mantienen semánticos para fácil lectura)
+# Colores de estado 
 ESTADO_ACTIVO = "#1E7A1E"      # Verde para socios/cuotas activas
 ESTADO_SUSPENDIDO = "#B00020"  # Rojo para socios suspendidos
 ESTADO_VENCIDO = "#B00020"     # Rojo para cuotas vencidas

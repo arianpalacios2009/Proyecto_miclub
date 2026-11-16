@@ -1,7 +1,7 @@
 
 from pathlib import Path
 
-from base_de_datos.base_datos import (
+from base_de_datos.base_de_datoss import (
     conectar,
     listar_cuotas_de_socio,
     pagar_cuota as pagar_cuota_en_bd,

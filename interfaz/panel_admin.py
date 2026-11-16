@@ -14,7 +14,7 @@ from interfaz.tema import (
     TEXTO,
 )
 from servicios.servicio_cuotas import listar_cuotas
-from servicios.servicio_socios import (
+from servicios.servicios_socios import (
     listar_socios,
     obtener_socio,
     reactivar_socio,
